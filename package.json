@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/ApocalypseCalculator/Minilonk#readme",
   "dependencies": {
-    "express.js": "^1.0.0",
+    "express": "^4.17.1",
     "nanoid": "^3.1.22",
     "sqlite3": "^5.0.2"
   }
