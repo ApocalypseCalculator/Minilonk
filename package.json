@@ -1,0 +1,29 @@
+{
+  "name": "minilonk",
+  "version": "0.1.0",
+  "description": "A simple URL shortener written in Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ApocalypseCalculator/Minilonk.git"
+  },
+  "keywords": [
+    "URL",
+    "shortener",
+    "Node"
+  ],
+  "author": "ApocalypseCalculator",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ApocalypseCalculator/Minilonk/issues"
+  },
+  "homepage": "https://github.com/ApocalypseCalculator/Minilonk#readme",
+  "dependencies": {
+    "express.js": "^1.0.0",
+    "nanoid": "^3.1.22",
+    "sqlite3": "^5.0.2"
+  }
+}
