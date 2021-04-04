@@ -46,7 +46,7 @@ app.post('/', (req, res) => {
 app.use('/', (req, res) => {
     if (req.url === '/') {
         res.header('Content-Type', 'text/html');
-        res.sendFile(path.join(__dirname + '\\index.html'));
+        res.sendFile(path.join(__dirname + '/index.html'));
     }
     else if (req.url === '/icon.png' || req.url === '/icon.ico') {
         res.sendFile(path.join(__dirname + req.url));
