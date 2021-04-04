@@ -65,8 +65,8 @@ module.exports.newLink = (options) => {
 module.exports.getLink = (slug) => {
     return new Promise((resolve, reject) => {
         let db = new sqlite.Database('./data.db');
-        db.get(`SELECT * FROM links WHERE slug = ?`, [slug], (row, err) => {
-            db.close((err) => {
+        db.get(`SELECT * FROM links WHERE slug = "${slug}"`, (err, row) => {
+            db.close((err2) => {
                 if (err) {
                     reject('Error fetching slug information');
                 }
