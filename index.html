@@ -14,16 +14,55 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     <script>
         function run() {
-            $.post('/', { url: $('#url').val() }, function (data, status) {
+            let info = structOpts();
+            $.post('/', info, function (data, status) {
                 if (status === "success") {
-                    $('#result').html(`Your shortened url is: <a href="${window.location.href}/${data}">${window.location.href}/${data}</a>`);
+                    $('#result').html(`Your shortened url is: <a href="${window.location.href}${data}">${window.location.href}${data}</a>`);
                 }
                 else {
                     $('#result').html('Error occurred!!!');
                 }
-            })
+            }).fail((err) => {
+                $('#result').html(`Error occurred!!! ${err.responseText}`);
+            });
+        }
+        function structOpts() {
+            let newobj = {
+                url: $('#url').val(),
+                slug: $('#slug').val()
+            }
+            if ($('#name').val() !== "" || $('#description').val() !== "" || $('#image').val() !== "" || $('#colour').val() !== "#000000") {
+                let opts = {
+                    name: $('#name').val(),
+                    description: $('#description').val(),
+                    image: $('#image').val(),
+                    colour: $('#colour').val()
+                }
+                newobj.custom = opts;
+            }
+            return newobj;
         }
     </script>
+    <style>
+        input[type="text"],
+        input[type="color"] {
+            background-color: #6b6a6a;
+            color: antiquewhite;
+        }
+
+        input[type="text"]:active,
+        input[type="text"]:focus,
+        input[type="color"]:active,
+        input[type="color"]:focus {
+            background-color: #5e5c72;
+            color: aliceblue;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="color"]::placeholder {
+            color: rgb(158, 157, 156);
+        }
+    </style>
 </head>
 
 <body>
@@ -47,8 +86,13 @@
             <div class="form-group">
                 <label>Extra Options (if you want to disguise the link as something else over social media): </label>
                 <input type="text" class="form-control" placeholder="Custom slug" id="slug">
+                <input type="text" class="form-control" placeholder="Custom embed name" id="name">
+                <input type="text" class="form-control" placeholder="Custom embed description" id="description">
+                <input type="text" class="form-control" placeholder="Custom embed image (put link)" id="image">
+                <label>Custom embed colour (choose something other than #000000 if you want this): </label>
+                <input type="color" class="form-control" placeholder="Custom embed colour" id="colour">
             </div>
-            <button type="submit" class="btn btn-primary">Minilonkify!</button>
+            <button type="submit" class="btn btn-primary">Minilonkify!</button><br><br>
             <p id="result"></p>
         </form>
     </div>
