@@ -17,6 +17,9 @@ app.post('/', (req, res) => {
     if (!req.body.url || req.body.url.length <= 2) {
         res.status(400).send('Custom slug cannot be less than 3 characters');
     }
+    else if (req.body.url.includes(req.hostname)) {
+        res.status(400).send('You may not do that.');
+    }
     else if (pattern.test(req.body.url)) {
         if (req.body.url && (req.body.slug || req.body.slug === '') && !req.body.custom) {
             db.newLink(req.body).then((slug) => {
