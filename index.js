@@ -1,5 +1,4 @@
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
 const db = require('./db');
 const template = require('./template');
@@ -45,8 +44,7 @@ app.post('/', (req, res) => {
 
 app.use('/', (req, res) => {
     if (req.url === '/') {
-        res.header('Content-Type', 'text/html');
-        res.sendFile(path.join(__dirname + '/index.html'));
+        res.send(template.home());
     }
     else if (req.url === '/icon.png' || req.url === '/icon.ico') {
         res.sendFile(path.join(__dirname + req.url));
