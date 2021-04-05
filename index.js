@@ -25,6 +25,10 @@ app.post('/', (req, res) => {
         }
         else if (req.body.url && (req.body.slug || req.body.slug === '') && req.body.custom) {
             if (req.body.custom.name || req.body.custom.description || req.body.custom.image || req.body.custom.colour) {
+                req.body.custom.name = req.body.custom.name.replace(/</g, '&gt;').replace(/>/g, '&lt;');
+                req.body.custom.description = req.body.custom.description.replace(/</g, '&gt;').replace(/>/g, '&lt;');
+                req.body.custom.image = req.body.custom.image.replace(/</g, '&gt;').replace(/>/g, '&lt;');
+                req.body.custom.colour = req.body.custom.colour.replace(/</g, '&gt;').replace(/>/g, '&lt;');
                 db.newLink(req.body).then((slug) => {
                     res.send(slug);
                 }).catch(err => res.status(400).send('Slug in use already'));
