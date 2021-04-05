@@ -15,7 +15,7 @@ app.post('/', (req, res) => {
         '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
         '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     if (!req.body.url || req.body.url.length <= 2) {
-        res.status(400).send('Custom slug cannot be less thsan 3 characters');
+        res.status(400).send('Custom slug cannot be less than 3 characters');
     }
     else if (pattern.test(req.body.url)) {
         if (req.body.url && (req.body.slug || req.body.slug === '') && !req.body.custom) {
