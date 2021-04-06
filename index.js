@@ -20,6 +20,9 @@ app.post('/', (req, res) => {
     else if (req.body.url.includes(req.hostname)) {
         res.status(400).send('You may not do that.');
     }
+    else if (!testSafeURI(req.body.slug)) {
+        res.status(400).send('You may not use those characters.');
+    }
     else if (pattern.test(req.body.url)) {
         if (req.body.url && (req.body.slug || req.body.slug === '') && !req.body.custom) {
             db.newLink(req.body).then((slug) => {
@@ -75,3 +78,14 @@ const PORT = 8080;
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
+
+function testSafeURI(target) {
+    const str = "qwertyuiopasdfghjklzxcvbnm-_~1234567890";
+    let chars = target.toLowerCase().split("");
+    for (let i = 0; i < chars.length; i++) {
+        if (!str.includes(`${chars[i]}`)) {
+            return false;
+        }
+    }
+    return true;
+}
