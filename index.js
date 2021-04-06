@@ -14,8 +14,8 @@ app.post('/', (req, res) => {
         '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
         '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
         '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-    if (!req.body.url || req.body.url.length <= 2) {
-        res.status(400).send('Custom slug cannot be less than 3 characters');
+    if (!req.body.url || req.body.url.length <= 2 || req.body.url.length > 200) {
+        res.status(400).send('Custom slug cannot be less than 3 characters or longer than 200!');
     }
     else if (req.body.url.includes(req.hostname)) {
         res.status(400).send('You may not do that.');
