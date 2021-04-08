@@ -1,6 +1,6 @@
 {
   "name": "minilonk",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A simple URL shortener written in Node.js",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/ApocalypseCalculator/Minilonk#readme",
   "dependencies": {
-    "axios": "^0.21.1",
     "express": "^4.17.1",
     "nanoid": "^3.1.22",
     "sqlite3": "^5.0.2"
