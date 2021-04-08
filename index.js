@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const db = require('./db');
+const config = require('./config.json');
 const template = require('./template');
 
 const app = express();
@@ -14,8 +15,9 @@ app.post('/', (req, res) => {
         '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
         '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
         '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-    if (!req.body.slug || req.body.slug.length <= 2 || req.body.slug.length > 200) {
-        res.status(400).send('Custom slug cannot be less than 3 characters or longer than 200!');
+
+    if (!req.body.slug || req.body.slug.length < config.slug.custom.min || req.body.slug.length > config.slug.custom.max) {
+        res.status(400).send(`Custom slugs cannot be less than ${config.slug.custom.min} characters or longer than ${config.slug.custom.max}!`);
     }
     else if (req.body.url.includes(req.hostname)) {
         res.status(400).send('You may not do that.');
@@ -31,10 +33,7 @@ app.post('/', (req, res) => {
         }
         else if (req.body.url && (req.body.slug || req.body.slug === '') && req.body.custom) {
             if (req.body.custom.name || req.body.custom.description || req.body.custom.image || req.body.custom.colour) {
-                req.body.custom.name = req.body.custom.name.replace(/</g, '&gt;').replace(/>/g, '&lt;');
-                req.body.custom.description = req.body.custom.description.replace(/</g, '&gt;').replace(/>/g, '&lt;');
-                req.body.custom.image = req.body.custom.image.replace(/</g, '&gt;').replace(/>/g, '&lt;');
-                req.body.custom.colour = req.body.custom.colour.replace(/</g, '&gt;').replace(/>/g, '&lt;');
+                [req.body.custom.name, req.body.custom.description, req.body.custom.image, req.body.custom.colour] = replace([req.body.custom.name, req.body.custom.description, req.body.custom.image, req.body.custom.colour]);
                 db.newLink(req.body).then((slug) => {
                     res.send(slug);
                 }).catch(err => res.status(400).send('Slug in use already'));
@@ -74,13 +73,13 @@ app.use('/', (req, res) => {
     }
 })
 
-const PORT = 8080;
+const PORT = config.server.port;
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
 
 function testSafeURI(target) {
-    const str = "qwertyuiopasdfghjklzxcvbnm-_~1234567890";
+    const str = config.chars.allowedCharset;
     let chars = target.toLowerCase().split("");
     for (let i = 0; i < chars.length; i++) {
         if (!str.includes(`${chars[i]}`)) {
@@ -88,4 +87,17 @@ function testSafeURI(target) {
         }
     }
     return true;
+}
+
+function replace(arr) {
+    let newarr = [];
+    arr.forEach(e => {
+        let val = e;
+        for (const property in config.chars.replaces) {
+            let piece = val.split(property);
+            val = `${piece.join(config.chars.replaces[property])}`;
+        }
+        newarr.push(val);
+    });
+    return newarr;
 }
