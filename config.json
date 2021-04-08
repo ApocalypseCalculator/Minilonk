@@ -1,5 +1,19 @@
 {
     "slug": {
-        "length": 11
+        "length": 11,
+        "custom": {
+            "min": 3,
+            "max": 200
+        }
+    },
+    "chars": {
+        "allowedCharset": "qwertyuiopasdfghjklzxcvbnm-_~1234567890",
+        "replaces": {
+            "<": "&gt;",
+            ">": "&lt;"
+        }
+    },
+    "server": {
+        "port": 8080
     }
 }
