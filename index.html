@@ -29,7 +29,8 @@
         function structOpts() {
             let newobj = {
                 url: $('#url').val(),
-                slug: $('#slug').val()
+                slug: $('#slug').val(),
+                password: $('#password').val()
             }
             if ($('#name').val() !== "" || $('#description').val() !== "" || $('#image').val() !== "" || $('#colour').val() !== "#000000") {
                 let opts = {
@@ -93,6 +94,8 @@
                 <input type="text" class="form-control" placeholder="Custom embed image (put link)" id="image">
                 <label>Custom embed colour (choose something other than #000000 if you want this): </label>
                 <input type="color" class="form-control" placeholder="Custom embed colour" id="colour">
+                <input type="password" class="form-control"
+                    placeholder="Protect your link with a password (this disables custom options)" id="password">
             </div>
             <button type="submit" class="btn btn-primary">Minilonkify!</button><br><br>
             <p id="result"></p>
